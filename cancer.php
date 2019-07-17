@@ -78,7 +78,7 @@ if (isset($_GET["coord"])) { // les coordonnées sont prioritaires sur l'adresse
 			echo '{"coordonnees": null, ';
 		}	
 		echo '"adresse": "'.$adr_texte.'", ';
-		echo '"cancer": "Non", "info": "Pas de glyphosate détécté dans les environs", "piezo": null}';
+		echo '"cancer": "Non", "info": "Pas de glyphosate détecté dans les environs", "piezo": null}';
 		ecritLog("Pas de glyphosate détécté dans les environs");
 	} else {
 		$tenmax = 0;
