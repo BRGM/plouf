@@ -1,0 +1,345 @@
+@font-face {
+    font-family: 'tt_normsmedium';
+    src: url('../fonts/TT Norms/ttnorms-medium-webfont.woff2') format('woff2'),
+         url('../fonts/TT Norms/ttnorms-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'tt_normsextralight';
+    src: url('../fonts/TT Norms Thin/ttnorms-extralight-webfont.woff2') format('woff2'),
+         url('../fonts/TT Norms Thinttnorms-extralight-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+      #search {
+          float: left;
+		  width: 500px;
+          height: 100%;
+		  margin-right: 6px;
+          margin-top: -30px!important;
+		  border: solid 0px;
+		  /* position: relative;
+		  left: 0px;
+		  top: 0px; */
+		  box-shadow: 2px 0px 6px rgba(0, 0, 0, .25); 
+      }
+      #basicMap {
+		  overflow: hidden;
+		  width: auto;
+          height: 98%;
+          margin-top: -48px!important;
+		  border: solid 1px;
+		  /* position: relative;
+		  left: 500px;
+		  top: -1000px; */
+      }
+	  html { 
+		overflow-y: hidden;
+		height: 100%
+      } 
+	  body {
+		font-family: 'Roboto', sans-serif;	
+		height: 100%;
+		background-color: #FFFFFF;
+		margin: 2px;
+		padding: 0px;
+  	    border: solid 0px;
+	  }
+	  input[type=text]{
+		-webkit-border-radius: 50px;
+		-moz-border-radius: 50px;
+		border-radius: 50px;
+		padding: 10px;
+		margin: -10px -30px 0px 0px; /* top right bottom left */
+		font-size : 18px;
+		color : #818181;
+		}
+
+	input.loupe {
+		background-image: url(../images/magnifying-glass.png); /* 16px x 16px */
+		background-color: transparent; /* make the button transparent */
+		background-repeat: no-repeat;  /* make the background image appear only once */
+		background-position: 0px 0px;  /* equivalent to 'top left' */
+		border: none;           /* assuming we don't want any borders */
+		cursor: pointer;        /* make the cursor like hovering over an <a> element */
+		height: 16px;           /* make this the size of your image */
+		padding-left: 16px;     /* make text start to the right of the image */
+		vertical-align: middle; /* align the text vertically centered */
+		outline: none;
+	}	/* séparateur de la loupe ? color #E0E0E0 */
+	/*
+	#bton_fm {
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		position: absolute;
+		top: 97px;
+		left: 521px;
+		width: 36px;
+		height: 36px; 
+		background-color: #ffffff;
+		background-image: url(../images/ico_france_select.png);
+		background-size: contain;
+		z-index: 5000;
+		cursor: pointer;
+		display:block;
+		border-radius: 4px 4px 4px 4px;
+	}
+	
+	#bton_ag {
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		position: absolute;
+		top: 160px;
+		left: 515px;
+		width: 36px;
+		height: 40px;
+		background-color: #ffffff;
+		background-image: url(images/ag.png);
+		background-size: contain;
+		z-index: 5000;
+		cursor: pointer;
+	}
+	#bton_ma {
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		position: absolute;
+		top: 210px;
+		left: 515px;
+		width: 36px;
+		height: 40px;
+		background-color: #ffffff;
+		background-image: url(images/mascareignes.png);
+		background-size: contain;
+		z-index: 5000;
+		cursor: pointer;
+	} 
+	#bton_pp {
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		position: absolute;
+		top: 138px;
+		left: 521px;
+		width: 36px;
+		height: 36px; /*40px; */
+	/*	background-color: #ffffff;
+		background-image: url(../images/ico_point_piezo.png);
+		background-size: contain;
+		z-index: 5000;
+		cursor: pointer;
+		border-radius: 4px 4px 4px 4px;
+	} 
+	 #bton_pt {
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		position: absolute;
+		top: 310px;
+		left: 515px;
+		width: 36px;
+		height: 40px;
+		background-color: #ffffff;
+		background-image: url(images/ico_point.png);
+		background-size: contain;
+		z-index: 5000;
+		cursor: pointer;
+	} */
+	.chiffres {
+		width : 240px;
+		height : 100px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px 8px 8px 8px;
+		border: 1px solid #CDE8FA;
+		font-family: 'tt_normsmedium';
+		font-size : 80px;
+		color: #000000;
+	}	
+	.metres {
+		font-family: 'tt_normsextralight';
+		font-size: 54px;
+		color:#FFFFFF;
+	}
+
+#search_haut {
+	/*height: 640px */
+	background: #60bfd2; /* Old browsers */
+	background: -moz-linear-gradient(top,  #60bfd2 0%, #068fee 99%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #60bfd2 0%,#068fee 99%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #60bfd2 0%,#068fee 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#60bfd2', endColorstr='#068fee',GradientType=0 ); /* IE6-9 */
+	color: #FFFFFF;
+	text-align: center;
+}	
+
+#search_bas {
+	/* margin: -30px 0px 0px 0px; /* top right bottom left */
+}
+
+#green-it {
+	display:block;
+	float: left;
+	width: 40px;
+	height: 40px;
+}	
+
+#brgm {
+	float: right;
+	padding: 10px 10px 0px 0px;
+}	
+
+#plouf img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 20%;
+}	
+
+#detail {
+	width: 400px;
+	background-color: #FFFFFF;
+	margin: -50px 0px 0px 35px; /* top right bottom left */
+	padding: 15px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px 20px 20px 20px;
+	border: 1px solid #EAEAEA;
+	font-size: 14px;
+	color: #616161;
+}	
+
+#titre_detail {
+	font-size: 16px;
+	color: #000000; 
+	text-align:center;
+ }	
+
+#titre_detail img {
+  vertical-align:middle;
+}
+
+#down img {
+		position: absolute;
+		top: 480px;
+		left: 220px;
+}	
+ 
+#disclaimer {
+	text-align: center;
+	font-size : 13px;
+	color : #836A27;
+	background-color: #FFF2CF;
+	padding: 10px;
+	margin: 20px;
+}	
+
+#contact {
+	text-align: center;
+	background-color: #CDE8FA;
+	border-radius: 8px 8px 8px 8px;
+	font-family: 'tt_normsmedium', sans-serif;
+	font-size: 16px;
+	color: #078CE4;
+	padding: 15px;
+	margin: 20px;
+}	
+#contact a {
+		outline: none;
+		text-decoration: none;
+		color: #078CE4;
+		display:block; width:100%; height:100%; /* rend le div entièrement cliquable */
+}	
+
+#bton_fm {
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.9);
+	font-size: 13px;
+	color: #616161;
+	height: 16px;
+	padding: 16px;
+	cursor: pointer;
+	position: absolute;
+	top: 16px;
+	left: calc(400px + calc(42% - 253px));
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px 20px 20px 20px;
+}	
+
+#bton_pp {
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.9);
+	font-size: 13px;
+	color: #616161;
+	height: 16px;
+	padding: 16px;
+	cursor: pointer;
+	position: absolute;
+	top: 16px;
+	left: calc(400px + calc(58% - 253px));
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px 20px 20px 20px;
+}	
+
+#aide {
+	display: block;
+	position: absolute;
+	top: calc(100% - 90px);
+	left: calc(100% - 55px);
+	height: 44px;
+	width: 44px;
+	background-image: url(../images/ic_help_24px.png); 
+	background-size: 24px;
+	z-index: 5000;
+	cursor: pointer;
+	border-radius: 4px 4px 4px 4px;
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+		background-color: rgba(0, 0, 0, 0.5);
+}
+
+#fen_aide {
+	display: none;
+	position: absolute;
+	top: calc(100% - 390px);
+	left: calc(100% - 490px);
+	height: 344px;
+	width: 444px;
+	background-color: white; 
+	z-index: 6000;
+	border-radius: 20px 20px 20px 20px;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+	font-family: 'tt_normsmedium', sans-serif;
+	font-size: 14px;
+	color: #616161;
+	cursor: pointer;
+	padding: 5px 20px 5px 20px; /* top right bottom left */
+}
+	
+#dhtmltooltip{
+position: absolute;
+width: 150px;
+border: 2px solid black;
+padding: 2px;
+background-color: lightyellow;
+visibility: hidden;
+z-index: 100;
+/*Remove below line to remove shadow. Below line should always appear last within this CSS*/
+filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
+}
+#cancer a {
+		outline: none;
+		text-decoration: none;
+		padding: 2px 1px 0;
+		color: #000000;
+}	
+
