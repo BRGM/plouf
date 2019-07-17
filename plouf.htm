@@ -1,0 +1,436 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr" >
+<head>
+<title>Plouf !</title>
+<meta name="author" content="The PLOUF Team" />
+<meta name="description" content="Un puits dans mon jardin : quelle est la profondeur de la nappe d'eau souterraine sous mes pieds ?" />
+<meta name="keywords" content="eau, eau souterraine, niveau, profondeur, nappe, aquifère, Hub'Eau, HubEau, France" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="fr" />
+<link rel="stylesheet" type="text/css" href="css/stylehtm.css" media="all" />
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/odometer-theme-car.css" />
+<style>
+.odometer {
+    font-size: 80px;
+}
+/* on a ajouté 1000 à la profondeur : enlever le 1er chiffre et le signe des milliers */
+.odometer .odometer-inside .odometer-digit:first-child,
+.odometer .odometer-inside .odometer-formatting-mark:nth-child(2) {
+    display: none
+}
+/* arrondir le nouveau 1er chiffre à gauche */
+.odometer .odometer-inside .odometer-digit:nth-child(3) {
+  -moz-border-radius: 0.2em 0 0 0.2em;
+  -webkit-border-radius: 0.2em 0 0 0.2em;
+  -o-border-radius: 0.2em 0 0 0.2em;
+  -ms-border-radius: 0.2em 0 0 0.2em;
+  -khtml-border-radius: 0.2em 0 0 0.2em;
+  border-radius: 0.2em 0 0 0.2em;
+}
+</style>
+<!-- si on veut ajouter le "m" dans le conteneur du compteur
+.odometer .odometer-inside:after {
+    content: "m"
+} !-->
+<script src="js/ajax.js"></script>
+<script type="text/javascript" src="js/odometer.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-103689621-1', 'auto');
+  ga('send', 'pageview');
+</script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
+    <style>
+      .ol-custom-overviewmap,
+      .ol-custom-overviewmap.ol-uncollapsible {
+        bottom: auto;
+        left: auto;
+        right: 0;
+        top: 0;
+      }
+      .ol-custom-overviewmap:not(.ol-collapsed)  {
+        border: 1px solid black;
+      }
+      .ol-custom-overviewmap .ol-overviewmap-map {
+        border: none;
+        width: 100px;
+		height: 100px;
+      }
+      .ol-custom-overviewmap .ol-overviewmap-box {
+        border: 2px solid dodgerblue;
+      }
+      .ol-custom-overviewmap:not(.ol-collapsed) button{
+        bottom: auto;
+        left: auto;
+        right: 1px;
+        top: 1px;
+      }
+      .ol-rotate {
+        top: 170px;
+        right: 0;
+      }
+	  .ol-zoom .ol-zoom-in {
+		height: 36px;
+		width: 36px;
+		border-radius: 4px 4px 4px 4px;
+      }
+	  .ol-zoom .ol-zoom-out {
+		margin-top: 5px;
+		height: 36px;
+		width: 36px;
+		border-radius: 4px 4px 4px 4px;
+      }
+</style>
+<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+<script>
+function delayedAlert(p) {
+	timeoutID = window.setTimeout(slowAlert(p), 100);
+}
+function slowAlert(p) {
+  document.getElementById('odometer').innerHTML = p+1000;
+}
+</script> 
+</head>
+<body>
+<script>
+var iconAdrStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 44],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'pixels',
+      opacity: 1.0,
+      src: 'images/Marker.png'
+    }))
+  });
+var iconPiezoStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 32],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'pixels',
+      opacity: 1.0,
+      src: 'images/iconPiezo.svg'
+    }))
+  });
+var iconInvisibleStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 32],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'pixels',
+      opacity: 0.0,
+      src: 'images/iconPiezo.svg'
+    }))
+  });
+  
+	var markerAdrFeature = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.fromLonLat([2.571723, 46.4975481]))
+	});
+	markerAdrFeature.setStyle(iconAdrStyle);
+	var markerPiezoFeature = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.fromLonLat([2.571723, 46.4975481]))
+	});
+	markerPiezoFeature.setStyle(iconPiezoStyle);
+	var markerSource = new ol.source.Vector({
+		features: [markerAdrFeature, markerPiezoFeature]
+	});
+	var markerLayer = new ol.layer.Vector({
+		source: markerSource
+	});	
+
+function get_adresse(){
+	var adrval = document.getElementById("adresse").value;
+   	var divadr = document.getElementById("adr");
+		var divadr = document.getElementById("adr");
+		var classdist = document.getElementById("dist");
+		var classdat = document.getElementById("dat");
+		var classbss = document.getElementById("bss");
+		ajaxGet("http://www.nalguise.net/plouf/prof.php?adresse=" + adrval, function (reponse) {
+			var rep = JSON.parse(reponse);
+			if (rep.piezo) {
+				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
+				delayedAlert(rep.piezo.profondeur);
+				var coordinate = ol.proj.fromLonLat(rep.coordonnees);
+				markerAdrFeature.getGeometry().setCoordinates(coordinate);
+				classdist.innerHTML = rep.piezo.distance;
+				classdat.innerHTML = rep.piezo.date_mesure;
+				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				var coord_proche = ol.proj.fromLonLat(rep.piezo.coordonnees);
+				//console.table(coord_proche);
+				markerPiezoFeature.getGeometry().setCoordinates(coord_proche);
+				// quand on recherche par adresse, on zoome sur le couple (point+piezo)
+				map.getView().fit(markerSource.getExtent(), map.getSize()); //pb: map n'est pas connu ici
+				map.getView().setZoom(map.getView().getZoom()-1);
+			}	else {
+				divadr.innerHTML = "<p>(adresse inconnue)</p>";
+				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
+				delayedAlert(0);
+				classdist.innerHTML = "-";
+				classdat.innerHTML = "-";
+				classbss.innerHTML = 'Point trop éloigné';
+				markerPiezoFeature.getGeometry().setCoordinates(coordinate); // rendre le piezo proche invisible
+				markerPiezoFeature.setStyle(iconInvisibleStyle);
+				adrval.value = "";
+			}	
+		});
+}
+
+// A bounce easing method (from https://github.com/DmitryBaranovskiy/raphael).
+      function bounce(t) {
+        var s = 7.5625;
+        var p = 2.75;
+        var l;
+        if (t < (1 / p)) {
+          l = s * t * t;
+        } else {
+          if (t < (2 / p)) {
+            t -= (1.5 / p);
+            l = s * t * t + 0.75;
+          } else {
+            if (t < (2.5 / p)) {
+              t -= (2.25 / p);
+              l = s * t * t + 0.9375;
+            } else {
+              t -= (2.625 / p);
+              l = s * t * t + 0.984375;
+            }
+          }
+        }
+        return l;
+      }
+
+      // An elastic easing method (from https://github.com/DmitryBaranovskiy/raphael).
+      function elastic(t) {
+        return Math.pow(2, -10 * t) * Math.sin((t - 0.075) * (2 * Math.PI) / 0.3) + 1;
+      }
+</script> 
+<div id="search">
+  <div id="search_haut">
+    <div id="brgm"><img src="images/logo_brgm_web_fr_couleur.svg"></div>
+	  <!-- <div id="green-it"><img src="images/green-it-label-gold.png" width="100" height="100"></div> !-->
+	<p>&nbsp;</p><br>
+	<div id="plouf"><img src="images/logoPlouf.png"></div>
+	<p>&nbsp;</p>
+	<input type="text" id="adresse" name="adresse" size="40" placeholder="Rechercher une adresse">
+	<input type="button" value="" class="loupe" onclick="get_adresse();">
+	<br>
+	<img src="images/goutesousrecherche.svg" height="48px">
+	
+	<h3>Profondeur de l'eau au point de mesure le plus proche</h3>
+	<div id="adr"><p>adresse</p></div>
+	<div id="odometer" class="odometer" style="font-size: 80px; font-family: tt_normsmedium;><p>000</p><p><img src="images/Vagues.svg"></p></div>
+	<span class="metres">&nbsp;m</span>
+    <div id="vagues"><img src="images/Vagues.svg"></div>
+	</div>
+	<div id="search_bas">
+	<!--
+	<script>
+		delayedAlert("0");
+	</script>
+	!-->
+
+	<div id="down"><img src="images/arrowdown.png"></div>
+	<div id="detail">
+	  <div id="titre_detail"><img src="images/iconPiezo.svg"><b>Détail du point de mesure</b> <i>(Piézomètre)</i></div>
+	<br><table width="100%"><tr height="30px"><td style="text-align:left;">
+	Identifiant (cliquez pour + d'infos)</td><td style="text-align:right;"><class id="bss">0000</class></td></tr>
+	<tr height="30px"><td style="text-align:left;">Distance</td><td style="text-align:right;"><b><class id="dist">0.0</class> km</b></td></tr>
+	<tr height="30px"><td style="text-align:left;">Date de la mesure</td><td style="text-align:right;"><b><class id="dat">01/01/1901</class></b></td></tr></table>
+	</div>
+	<div id="disclaimer">Cette information est fournie à titre purement indicatif. Avant tout projet, contactez un hydrogéologue du BRGM.</div>
+
+<div id="contact"><a href="https://www.brgm.fr/content/contact" target="_blank">Contact</a></div>
+</div> <!-- de search_bas !-->
+</div>
+<p>&nbsp;</p>
+<div id="basicMap"></div>
+<div id="bton_fm" title="Zoom sur France métropolitaine">Centrer sur la France</div>
+<div id="bton_pp" title="Zoom sur Point + Piézo">Centrer sur le résultat</div>
+<div id="aide" title="Aide"></div>
+<div id="fen_aide" title="Fenêtre d'aide">
+<p>plouf vous permet de connaître la profondeur de l'eau sous vos pieds.</p>
+<p>Il estime la profondeur de l'eau contenue dans la nappe d'eau souterraine la plus proche.<br>
+Dans cette version de démonstration, le calcul est simplifié : seul le point de mesure (piézomètre) le plus proche est considéré, sans se soucier de la date de la mesure (qui peut ainsi être ancienne) ou de la nappe captée (qui peut ne pas correspondre avec la nappe qui est réellement sous vos pieds).<br>
+Une version avec un meilleur algorithme de calcul sera bientôt proposée.</p>
+<p>Pour vous localiser, vous pouvez soit entrer votre adresse, soit cliquer un point sur la carte.<br>
+plouf indique alors la profondeur de l'eau au point de mesure le plus proche, l'identifiant de ce point de mesure (sur lequel vous pouvez cliquer pour avoir des informations supplémentaires), la distance de ce point de mesure par rapport à l'endroit choisi et la date de la dernière mesure.</p>
+</div>
+
+<script type="text/javascript">
+	  var overviewMapControl = new ol.control.OverviewMap({
+        // see in overviewmap-custom.html to see the custom CSS used
+        className: 'ol-overviewmap ol-custom-overviewmap',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        collapseLabel: '\u00BB',
+        label: '\u00AB',
+		tipLabel: 'Ouvrir ou fermer la mini-carte',
+        collapsed: false,
+		view: new ol.View({
+          center: ol.proj.fromLonLat([2.571723, 46.4975481]),
+		  maxZoom: 3,
+		  minZoom: 1,
+		  zoom: 3
+		})
+	  });
+
+	  var view = new ol.View({
+          center: ol.proj.fromLonLat([2.571723, 46.4975481]),
+          zoom: 6
+      });
+	  
+	  var scaleLineControl = new ol.control.ScaleLine();
+      var map = new ol.Map({
+        target: 'basicMap',
+        controls: ol.control.defaults().extend([
+          overviewMapControl,
+		  scaleLineControl
+        ]),
+        interactions: ol.interaction.defaults().extend([
+          new ol.interaction.DragRotateAndZoom()
+        ]),
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+		  , markerLayer],
+		// Improve user experience by loading tiles while animating. Will make animations stutter on mobile or slow devices.
+		loadTilesWhileAnimating: true,
+		/* loadTilesWhileInteracting: true,
+        renderMode: 'image', */
+		view: view
+      });
+	  
+	//map.getView().fit(markerSource.getExtent(), map.getSize());
+	//map.getView().setZoom(map.getView().getZoom()-1);
+
+function spin(coordinate) {
+	// Rotation animation takes the shortest arc, so animate in two parts
+	// fait tourner la carte avant de la centrer sur le nouveau point
+        var center = map.getView().getCenter();
+        view.animate({
+          center: [
+            center[0] + (coordinate[0] - center[0]) / 2,
+            center[1] + (coordinate[1] - center[1]) / 2
+          ],
+          rotation: Math.PI,
+          easing: ol.easing.easeIn
+        }, {
+          center: coordinate,
+          rotation: 2 * Math.PI,
+          easing: ol.easing.easeOut
+        }); 
+}
+function panTo(coordinate) {
+        view.animate({
+          center: coordinate,
+          duration: 1500,
+        });
+}
+function bounceTo(coordinate) {
+        view.animate({
+          center: coordinate,
+          duration: 2000,
+          easing: bounce
+        });
+}
+function elasticTo(coordinate) {
+        view.animate({
+          center: coordinate,
+          duration: 2000,
+          easing: elastic
+        });
+}
+	
+function affiche_points(coordinate) {
+		markerAdrFeature.getGeometry().setCoordinates(coordinate);
+		console.table(coordinate);
+		var lonlat = ol.proj.transform(coordinate, 'EPSG:900913', 'EPSG:4326');
+		var divadr = document.getElementById("adr");
+		var classdist = document.getElementById("dist");
+		var classdat = document.getElementById("dat");
+		var classbss = document.getElementById("bss");
+		var adrval = document.getElementById("adresse"); // input adresse
+		ajaxGet("http://www.nalguise.net/plouf/prof.php?coord=" + lonlat[0] + "," + lonlat[1], function (reponse) {
+			var rep = JSON.parse(reponse);
+			if (rep.piezo) {
+				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
+				delayedAlert(rep.piezo.profondeur);
+				classdist.innerHTML = rep.piezo.distance;
+				classdat.innerHTML = rep.piezo.date_mesure;
+				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				var coord_proche = ol.proj.fromLonLat(rep.piezo.coordonnees);
+				//console.table(coord_proche);
+				markerPiezoFeature.getGeometry().setCoordinates(coordinate);  // pour faire bouger le piézo
+				markerPiezoFeature.getGeometry().setCoordinates(coord_proche);
+				markerPiezoFeature.setStyle(iconPiezoStyle);
+				// quand on clique sur la carte, on ne zoome pas, on laisse l'utilisateur le faire s'il le veut
+				// par contre on centre à l'aide de pan ou bounce
+				// et si le piezo n'apparait pas, zoomer moins tant qu'il n'apparaît pas
+				while (!ol.extent.containsExtent(map.getView().calculateExtent(), markerPiezoFeature.getGeometry().getExtent())) {
+					map.getView().setZoom(map.getView().getZoom()-1);
+				} // ne marche pas à tous les coups (fail si le piézo ne bouge pas semble t-il ?)
+				//map.getView().fit(markerSource.getExtent(), map.getSize());
+				//map.getView().setZoom(map.getView().getZoom()-1);
+				adrval.value = "";
+			}	else {
+				//console.log("rien trouvé");
+				divadr.innerHTML = "<p>(adresse inconnue)</p>";
+				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
+				delayedAlert(0);
+				classdist.innerHTML = "-";
+				classdat.innerHTML = "-";
+				classbss.innerHTML = 'Point trop éloigné';
+				markerPiezoFeature.getGeometry().setCoordinates(coordinate); // rendre le piezo proche invisible
+				markerPiezoFeature.setStyle(iconInvisibleStyle);
+				adrval.value = "";
+			}	
+		});
+}	
+	affiche_points(ol.proj.fromLonLat([2.571723, 46.4975481]));
+
+	map.on('singleclick', function(evt) {
+        var coordinate = evt.coordinate;
+		//spin(coordinate);
+		//bounceTo(coordinate);
+		panTo(coordinate);
+		//elasticTo(coordinate);
+		affiche_points(coordinate);
+    });
+	  
+	/*
+	switch (round($distmin)) {
+		case 0: case 1: 			echo 'var options = { maxResolution: map.getResolutionForZoom(11) };'; break;
+		case 2: case 3: case 4:		echo 'var options = { maxResolution: map.getResolutionForZoom(10) };'; break;
+		case 5: case 6: case 7: case 8: case 9: echo 'var options = { maxResolution: map.getResolutionForZoom(9) };'; break;
+		default: 					echo 'var options = { maxResolution: map.getResolutionForZoom(8) };'; break;
+	}	
+	*/
+
+	var bton_fm = document.getElementById('bton_fm');
+	bton_fm.onclick = function() {
+		map.getView().setCenter(ol.proj.fromLonLat([2.571723, 46.4975481]));
+		map.getView().setZoom(6);
+	};				
+	var bton_pp = document.getElementById('bton_pp');
+	bton_pp.onclick = function() {
+		map.getView().fit(markerSource.getExtent(), map.getSize());
+		map.getView().setZoom(map.getView().getZoom()-1);
+	};		
+	var aide = document.getElementById('aide');
+	aide.onclick = function() {
+		document.getElementById('fen_aide').style.display = 'block'; 
+	};		
+	var fen_aide = document.getElementById('fen_aide');
+	fen_aide.onclick = function() {
+		document.getElementById('fen_aide').style.display = 'none';
+	};		
+</script>
+</body>
+</html>
