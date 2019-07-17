@@ -148,7 +148,7 @@ function get_adresse(){
 		var classdist = document.getElementById("dist");
 		var classdat = document.getElementById("dat");
 		var classbss = document.getElementById("bss");
-		ajaxGet("http://www.nalguise.net/plouf/prof.php?adresse=" + adrval, function (reponse) {
+		ajaxGet("https://www.nalguise.net/plouf/prof.php?adresse=" + adrval, function (reponse) {
 			var rep = JSON.parse(reponse);
 			if (rep.piezo) {
 				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
@@ -357,7 +357,7 @@ function affiche_points(coordinate) {
 		var classdat = document.getElementById("dat");
 		var classbss = document.getElementById("bss");
 		var adrval = document.getElementById("adresse"); // input adresse
-		ajaxGet("http://www.nalguise.net/plouf/prof.php?coord=" + lonlat[0] + "," + lonlat[1], function (reponse) {
+		ajaxGet("https://www.nalguise.net/plouf/prof.php?coord=" + lonlat[0] + "," + lonlat[1], function (reponse) {
 			var rep = JSON.parse(reponse);
 			if (rep.piezo) {
 				divadr.innerHTML = "<p>" + rep.adresse + "</p>";
