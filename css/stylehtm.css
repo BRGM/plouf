@@ -304,8 +304,10 @@
 #aide {
 	display: block;
 	position: absolute;
-	top: calc(100% - 90px);
-	left: calc(100% - 55px);
+	/*top: calc(100% - 90px);*/
+	/*left: calc(100% - 55px);*/
+	top:0;
+	right:0;
 	height: 44px;
 	width: 44px;
 	background-image: url(../images/ic_help_24px.png); 
@@ -324,8 +326,8 @@
 	position: absolute;
 	/*top: calc(100% - 390px);*/
 	/*left: calc(100% - 490px);*/
-	right:10px;
-	bottom:45px;
+	right:0px;
+	top:0px;
 	height: 344px;
 	width: 444px;
 	background-color: white; 
@@ -357,4 +359,12 @@ filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
 		padding: 2px 1px 0;
 		color: #000000;
 }	
+
+.ol-attribution:not(.ol-collapsed), .ol-control {
+	background : none;	
+}
+.ol-attribution.ol-uncollapsible {
+    bottom: 2px;
+    right: 16px;
+}
 
