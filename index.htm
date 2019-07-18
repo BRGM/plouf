@@ -50,12 +50,16 @@
       .ol-custom-overviewmap.ol-uncollapsible {
         bottom: auto;
         left: auto;
-        right: 0;
-        top: 0;
+        right: 10px;
+        top: 10px;
+	box-shadow: 2px 0px 6px rgba(0, 0, 0, .25);
       }
       .ol-custom-overviewmap:not(.ol-collapsed)  {
-        border: 1px solid black;
+        /*border: 1px solid black;*/
       }
+	.ol-overviewmap:not(.ol-collapsed) {
+    	background: rgba(255,255,255);
+	}
       .ol-custom-overviewmap .ol-overviewmap-map {
         border: none;
         width: 100px;
