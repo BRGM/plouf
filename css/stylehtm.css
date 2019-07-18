@@ -174,6 +174,9 @@
 		font-family: 'tt_normsextralight';
 		font-size: 54px;
 		color:#FFFFFF;
+		display: inline-block;
+    		vertical-align: bottom;
+    		padding-bottom: 10px;
 	}
 
 #search_haut {
@@ -268,7 +271,7 @@
 
 #bton_fm {
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 255, 255, 0.95);
 	font-size: 13px;
 	color: #616161;
 	height: 16px;
@@ -279,12 +282,12 @@
 	left: calc(400px + calc(42% - 253px));
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	border-radius: 4px 4px 4px 4px;
+	border-radius: 2px 2px 2px 2px;
 }	
 
 #bton_pp {
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 255, 255, 0.95);
 	font-size: 13px;
 	color: #616161;
 	height: 16px;
@@ -295,7 +298,7 @@
 	left: calc(400px + calc(58% - 253px));
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	border-radius: 4px 4px 4px 4px;
+	border-radius: 2px 2px 2px 2px;
 }	
 
 #aide {
@@ -306,10 +309,10 @@
 	height: 44px;
 	width: 44px;
 	background-image: url(../images/ic_help_24px.png); 
-	background-size: 24px;
+	background-size: 20px;
 	z-index: 5000;
 	cursor: pointer;
-	border-radius: 4px 4px 4px 4px;
+	/*border-radius: 4px 4px 4px 4px;*/
 		background-repeat: no-repeat;
 		background-position: center;
 		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
