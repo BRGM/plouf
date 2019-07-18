@@ -49,6 +49,10 @@
 		padding: 0px;
   	    border: solid 0px;
 	  }
+	h3 {
+		font-family: tt_normsmedium;
+		font-size:18px;
+	}	
 	  input[type=text]{
 		-webkit-border-radius: 50px;
 		-moz-border-radius: 50px;
@@ -58,6 +62,7 @@
 		font-size : 18px;
 		color : #818181;
 		border:0px;
+		font-family: 'Roboto', sans-serif;
 		}
         input:focus {
 	outline: none;	
@@ -231,7 +236,7 @@
 
 #down img {
 		position: absolute;
-		top: 480px;
+		top: 490px;
 		left: 220px;
 }	
  
