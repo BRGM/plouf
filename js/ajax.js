@@ -17,7 +17,8 @@ function ajaxGet(url, callback) {
     req.send(null);
 }
 
-		/*
+		
+	function getAdresse(lonlat) {
 		ajaxGet("https://api-adresse.data.gouv.fr/reverse/?lon=" + lonlat[0] + "&lat=" + lonlat[1], function (reponse) {
 			var adresse = JSON.parse(reponse);
 			if (adresse.features[0]) {
@@ -27,4 +28,4 @@ function ajaxGet(url, callback) {
 				divadr.innerHTML = "<p>(adresse inconnue)</p>";
 			}	
 		});
-		*/
+	}	
