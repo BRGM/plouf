@@ -207,7 +207,9 @@ function get_adresse(){
 				markerAdrFeature.getGeometry().setCoordinates(coordinate);
 				classdist.innerHTML = rep.piezo.distance;
 				classdat.innerHTML = rep.piezo.date_mesure;
-				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				//2019-08-01 : on n'affiche plus l'identifiant BSS du piézo mais un simple lien vers plus d'informations
+				//classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank">Plus d\'informations sur le point de mesure</a>';
 				var coord_proche = ol.proj.fromLonLat(rep.piezo.coordonnees);
 				//console.table(coord_proche);
 				markerPiezoFeature.getGeometry().setCoordinates(coord_proche);
@@ -285,10 +287,11 @@ function get_adresse(){
 	<div id="down"><img src="images/arrowdown.png"></div>
 	<div id="detail">
 	  <div id="titre_detail"><img src="images/iconPiezo.svg"><b>Détail du point de mesure</b> <i>(Piézomètre)</i></div>
-	<br><table width="100%"><tr height="30px"><td style="text-align:left;">
-	Identifiant (cliquez pour + d'infos)</td><td style="text-align:right;"><class id="bss">0000</class></td></tr>
+	<br><table width="100%">
 	<tr height="30px"><td style="text-align:left;">Distance</td><td style="text-align:right;"><b><class id="dist">0.0</class> km</b></td></tr>
-	<tr height="30px"><td style="text-align:left;">Date de la mesure</td><td style="text-align:right;"><b><class id="dat">01/01/1901</class></b></td></tr></table>
+	<tr height="30px"><td style="text-align:left;">Date de la mesure</td><td style="text-align:right;"><b><class id="dat">01/01/1901</class></b></td></tr>
+	<tr height="30px"><td style="text-align:center;" colspan="2"><class id="bss">Plus d'informations sur le point de mesure</class></td></tr>
+	</table>
 	</div>
 	<div id="disclaimer">Cette information est fournie à titre purement indicatif. Avant tout projet, contactez un hydrogéologue du BRGM.</div>
 
@@ -416,7 +419,9 @@ function affiche_points(coordinate) {
 				delayedAlert(rep.piezo.profondeur);
 				classdist.innerHTML = rep.piezo.distance;
 				classdat.innerHTML = rep.piezo.date_mesure;
-				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				//2019-08-01 : on n'affiche plus l'identifiant BSS du piézo mais un simple lien vers plus d'informations
+				//classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank"><b>' + rep.piezo.code_bss + '</b></a>';
+				classbss.innerHTML = '<a href="https://ades.eaufrance.fr/Fiche/PtEau?Code=' + rep.piezo.code_bss + '#mesures_graphiques" target="_blank">Plus d\'informations sur le point de mesure</a>';
 				var coord_proche = ol.proj.fromLonLat(rep.piezo.coordonnees);
 				//console.table(coord_proche);
 				markerPiezoFeature.getGeometry().setCoordinates(coordinate);  // pour faire bouger le piézo
